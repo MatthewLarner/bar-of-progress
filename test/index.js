@@ -1,10 +1,14 @@
 var test = require('grape'),
-    Mockery = require('mockery'),
-    mockery = new Mockery(),
+    mockery = require('mockery'),
     pathToObjectUnderTest = '../';
 
 function resetMocks(){
-    mockery.registerMock('crel', function (){ return; });
+    mockery.registerMock('crel', function (){ 
+        return {
+            style: {}
+        }; 
+    });
+    mockery.registerMock('default-style', function (){ return; });
 }
 
 function getCleanTestObject(){
@@ -27,14 +31,37 @@ test('bar-of-progress exists', function(t) {
     t.equal(typeof testBar, 'function', 'bar-of-progress is a function');
 });
 
-test('value is assigned correctly', function(t) {
-    t.plan(1);
+test('value gets / sets correctly', function(t) {
+    t.plan(2);
 
-    var testBar = new getCleanTestObject(),
+    var bar = getCleanTestObject(),
+        testBar = new bar();
         testValue = 0.4;
-        debugger;
     testBar.value(testValue);
-
-    t.equal(testBar.value(), testValue, 'bar-of-progress is a function');
+    t.equal(testBar.value(), testBar._value, 'getter equals property');
+    t.equal(testBar.value(), testValue, 'getter equals setter value');
 });
 
+test('min is set correctly', function(t) {
+    t.plan(2);
+
+    var bar = getCleanTestObject(),
+        testBar = new bar();
+        testMin = 0.1;
+    testBar.min(testMin);
+    t.equal(testBar.min(), testBar._min, 'getter equals property');
+    t.equal(testBar.min(), testMin, 'getter equals setter value');
+
+});
+
+test('max is set correctly', function(t) {
+    t.plan(2);
+
+    var bar = getCleanTestObject(),
+        testBar = new bar();
+        testmax = 0.1;
+    testBar.max(testmax);
+    t.equal(testBar.max(), testBar._max, 'getter equals property');
+    t.equal(testBar.max(), testmax, 'getter equals setter value');
+
+});
