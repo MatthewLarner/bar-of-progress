@@ -33,7 +33,7 @@ ProgressBar.prototype.min = function(min) {
     this._update();
 };
 
-ProgressBar.prototype._max = 0;
+ProgressBar.prototype._max = 1;
 ProgressBar.prototype.max = function(max) {
     if (arguments.length === 0) {
         return this._max;
@@ -48,7 +48,6 @@ ProgressBar.prototype._update = function() {
     if (value == null) {
         value = 0;
     }
-
     this.valueElement.style.width = 100 / (this.max() - this.min()) * value + '%';
 };
 

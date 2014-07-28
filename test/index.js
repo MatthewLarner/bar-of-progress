@@ -40,7 +40,6 @@ test('value gets / sets correctly', function(t) {
     testBar.value(testValue);
     t.equal(testBar.value(), testBar._value, 'getter equals property');
     t.equal(testBar.value(), testValue, 'getter equals setter value');
-
 });
 
 test('min is set correctly', function(t) {
