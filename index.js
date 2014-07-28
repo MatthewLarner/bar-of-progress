@@ -12,11 +12,6 @@ ProgressBar.prototype._render = function(element) {
 };
 
 ProgressBar.prototype.value = 0;
-ProgressBar.prototype.max = 1;
-// ProgressBar.prototype.update = function(value) {
-//     if(value !== null && value !== undefined) {
-//        this.value = value;
-//     }
-// };
+// ProgressBar.prototype.max = 1;
 
 module.exports = ProgressBar;
