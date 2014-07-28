@@ -3,7 +3,11 @@ var test = require('grape'),
     pathToObjectUnderTest = '../';
 
 function resetMocks(){
-    mockery.registerMock('crel', function (){ return; });
+    mockery.registerMock('crel', function (){ 
+        return {
+            style: {}
+        }; 
+    });
     mockery.registerMock('default-style', function (){ return; });
 }
 
