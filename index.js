@@ -12,6 +12,5 @@ ProgressBar.prototype._render = function(element) {
 };
 
 ProgressBar.prototype.value = 0;
-// ProgressBar.prototype.max = 1;
 
 module.exports = ProgressBar;
