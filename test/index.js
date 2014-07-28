@@ -1,10 +1,10 @@
 var test = require('grape'),
-    Mockery = require('mockery'),
-    mockery = new Mockery(),
+    mockery = require('mockery'),
     pathToObjectUnderTest = '../';
 
 function resetMocks(){
     mockery.registerMock('crel', function (){ return; });
+    mockery.registerMock('default-style', function (){ return; });
 }
 
 function getCleanTestObject(){
@@ -30,7 +30,8 @@ test('bar-of-progress exists', function(t) {
 test('value is assigned correctly', function(t) {
     t.plan(1);
 
-    var testBar = new getCleanTestObject(),
+    var bar = getCleanTestObject(),
+        testBar = new bar();
         testValue = 0.4;
         debugger;
     testBar.value(testValue);
