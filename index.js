@@ -3,12 +3,12 @@ var crel = require('crel'),
 
 new DefaultStyle('.progress-bar > div { height:100%; }');
 
-function ProgressBar(element) {
-    this._render(element);
+function ProgressBar(cssclass, element) {
+    this._render(cssclass, element);
 }
 
-ProgressBar.prototype._render = function(element) {
-    this.element = element || crel('div', {'class':'progress-bar'},
+ProgressBar.prototype._render = function(cssclass, element) {
+    this.element = element || crel('div', {'class': cssclass || 'progress-bar' },
         this.valueElement = crel('div')
     );
 };
@@ -40,6 +40,16 @@ ProgressBar.prototype.max = function(max) {
     }
 
     this._max = max;
+    this._update();
+};
+
+ProgressBar.prototype.cssClass = 'progress-bar';
+ProgressBar.prototype.cssClass = function(cssClass) {
+    if (arguments.length === 0) {
+        return this._class;
+    }
+
+    this._class = cssClass;
     this._update();
 };
 
