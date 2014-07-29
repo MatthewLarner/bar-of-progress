@@ -1,27 +1,25 @@
 {
   "name": "bar-of-progress",
   "version": "0.0.0",
-  "description": "bar-of-progress ===============",
+  "description": "bar-of-progress",
   "main": "index.js",
   "dependencies": {
     "crel": "^1.1.2",
-    "default-style": "^1.0.3",
-    "mockery": "~1.4.0",
-    "grape": "~1.0.1"
+    "default-style": "^1.0.3"
   },
   "devDependencies": {
     "grape": "^1.0.1",
     "mockery": "^1.4.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/iamalarner/bar-of-progress.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/iamalarner/bar-of-progress/issues"
   },
