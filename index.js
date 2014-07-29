@@ -48,7 +48,7 @@ ProgressBar.prototype._update = function() {
     if (value == null) {
         value = 0;
     }
-    this.valueElement.style.width = 100 / (this.max() - this.min()) * value + '%';
+    this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
 };
 
 module.exports = ProgressBar;
