@@ -1,7 +1,4 @@
-var crel = require('crel'),
-    DefaultStyle = require('default-style');
-
-new DefaultStyle('.progress-bar > div { height:100%; }');
+var crel = require('crel');
 
 function ProgressBar(cssclass, element) {
     this._render(cssclass, element);
@@ -40,16 +37,6 @@ ProgressBar.prototype.max = function(max) {
     }
 
     this._max = max;
-    this._update();
-};
-
-ProgressBar.prototype.cssClass = 'progress-bar';
-ProgressBar.prototype.cssClass = function(cssClass) {
-    if (arguments.length === 0) {
-        return this._class;
-    }
-
-    this._class = cssClass;
     this._update();
 };
 

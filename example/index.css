@@ -11,6 +11,7 @@
 }
 
 .progress-bar > div {
+  height:100%;
   display: block;
 
   background-color: gray;
