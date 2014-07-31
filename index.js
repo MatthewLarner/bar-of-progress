@@ -3,10 +3,13 @@ var crel = require('crel'),
     style = new DefaultStyle('.progress-bar { position: relative; display: inline-block; background: darkGray; width:100%; height: 20px; } .progress-bar > div { height: 100%; display: block; text-indent: -9999px; }');
 
 function ProgressBar(removeDefaultStyle, element) {
+    this._render(element);
+
     if (removeDefaultStyle === true) {
         style.remove();
+    } else {
+        this.element.className = 'progress-bar';
     }
-    this._render(element);
 }
 
 ProgressBar.prototype._render = function(valueElement) {
