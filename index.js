@@ -1,14 +1,24 @@
 var crel = require('crel'),
-    doc = require('doc-js');
+    DefaultStyle = require('default-style'),
+    style = new DefaultStyle('.progress-bar { position: relative; display: inline-block; background: darkGray; width:100%; height: 20px; } .progress-bar > div { height: 100%; display: block; text-indent: -9999px; }');
 
-function ProgressBar(element) {
+function ProgressBar(removeDefaultStyle, element) {
+    if (removeDefaultStyle === true) {
+        style.remove();
+    }
     this._render(element);
 }
 
-ProgressBar.prototype._render = function(element) {
-    this.element = element || crel('div',
+ProgressBar.prototype._render = function(valueElement) {
+    if(valueElement) {
+        this.element = valueElement.parentElement || crel('div', valueElement);
+        this.valueElement = valueElement;
+        return;
+    }
+    this.element = crel('div',
         this.valueElement = crel('div')
     );
+    this.element._progressBar = this;
 };
 
 ProgressBar.prototype._value = 0;
@@ -39,16 +49,6 @@ ProgressBar.prototype.max = function(max) {
 
     this._max = max;
     this._update();
-};
-
-ProgressBar.prototype._cssClass = null;
-ProgressBar.prototype.cssClass = function(cssClass) {
-    if (arguments.length === 0) {
-        return this._cssClass;
-    }
-
-    this._cssClass = cssClass;
-    doc(this.element).addClass(cssClass);
 };
 
 ProgressBar.prototype._update = function() {
