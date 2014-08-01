@@ -1,6 +1,6 @@
 {
   "name": "bar-of-progress",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "bar-of-progress",
   "main": "index.js",
   "dependencies": {
