@@ -4,7 +4,7 @@
   "description": "bar-of-progress",
   "main": "index.js",
   "dependencies": {
-    "crel": "^1.1.2",
+    "crel": "^2.1.2",
     "default-style": "^1.0.3"
   },
   "devDependencies": {
