@@ -1,5 +1,6 @@
-var bar = require('bar-of-progress'),
-    brogress = new bar();
+var bar = require('../'),
+    brogress = new bar(),
+    doc = require('doc-js');
 
 /**
 *   Defaults:
@@ -11,3 +12,9 @@ var bar = require('bar-of-progress'),
 
 brogress.value(0.5); // Set value to 50% and updates display
 brogress.value(); // Gets current value: 0.5
+
+doc.ready(function() {
+    window.brogress = brogress;
+
+    document.body.appendChild(brogress.element);
+});
