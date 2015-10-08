@@ -11,6 +11,13 @@ var crel = require('crel'),
             this.valueElement.style.bottom = 'initial';
             this.valueElement.style.height = '100%';
             this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+
+            var classesToRemove = Object.keys(this.updateFunctions);
+            classesToRemove.splice(classesToRemove.indexOf('horizontal', 1));
+            this.element.classList.remove.apply(this.element.classList, classesToRemove);
+
+            this.element.classList.add('horizontal');
+
         },
         vertical: function vertical() {
             var value = this._value;
@@ -21,6 +28,12 @@ var crel = require('crel'),
             this.valueElement.style.position = 'absolute';
             this.valueElement.style.bottom = '0';
             this.valueElement.style.height = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+
+            var classesToRemove = Object.keys(this.updateFunctions);
+            classesToRemove.splice(classesToRemove.indexOf('vertical', 1));
+            this.element.classList.remove.apply(this.element.classList, classesToRemove);
+
+            this.element.classList.add('vertical');
         }
     };
 
@@ -45,6 +58,7 @@ ProgressBar.prototype._render = function(valueElement) {
     );
     this.element._progressBar = this;
     this.updateFunctions = updateFunctions;
+    this._update();
 };
 
 ProgressBar.prototype._value = 0;
