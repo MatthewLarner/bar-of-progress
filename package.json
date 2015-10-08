@@ -10,14 +10,13 @@
   "devDependencies": {
     "browserify": "^11.1.0",
     "doc-js": "^1.3.1",
-    "mockery": "^1.4.1",
+    "phantomjs": "^1.9.18",
     "tape": "^4.2.0",
     "tape-run": "^1.1.0"
   },
   "scripts": {
-    "test": "node test",
-    "test-browser": "browserify ./test | tape-run",
-    "example": "browserify ./example -o ./example/index.browser.js & google-chrome ./example/index.html"
+    "test": "browserify ./test | tape-run",
+    "example": "browserify ./example -o ./example/index.browser.js & open ./example/index.html"
   },
   "repository": {
     "type": "git",

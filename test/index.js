@@ -5,7 +5,6 @@ test('bar-of-progress exists', function(t) {
     t.plan(2);
 
     var testBar = bar;
-
     t.ok(testBar, 'bar-of-progress exists');
     t.equal(typeof testBar, 'function', 'bar-of-progress is a function');
 });
@@ -38,4 +37,14 @@ test('max is set correctly', function(t) {
     testBar.max(testmax);
     t.equal(testBar.max(), testBar._max, 'getter equals property');
     t.equal(testBar.max(), testmax, 'getter equals setter value');
+});
+
+test('style is set correctly', function(t) {
+    t.plan(2);
+
+    var testBar = new bar(),
+        teststyle = 'spiral';
+    testBar.style(teststyle);
+    t.equal(testBar.style(), testBar._style, 'getter equals property');
+    t.equal(testBar.style(), teststyle, 'getter equals setter value');
 });

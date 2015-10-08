@@ -23,7 +23,29 @@ doc.ready(function() {
 },{"../":2,"doc-js":6}],2:[function(require,module,exports){
 var crel = require('crel'),
     DefaultStyle = require('default-style'),
-    style = new DefaultStyle('.progress-bar { position: relative; display: inline-block; background: darkGray; width:100%; height: 20px; } .progress-bar > div { height: 100%; display: block; text-indent: -9999px; }');
+    style = new DefaultStyle('.progress-bar { position: relative; display: inline-block; background: darkGray; width:100%; height: 20px; } .progress-bar > div { height: 100%; display: block; text-indent: -9999px; }'),
+    updateFunctions = {
+        horizontal: function horizontal() {
+            var value = this._value;
+            if (value == null) {
+                value = 0;
+            }
+            this.valueElement.style.position = 'initial';
+            this.valueElement.style.bottom = 'initial';
+            this.valueElement.style.height = '100%';
+            this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+        },
+        vertical: function vertical() {
+            var value = this._value;
+            if (value == null) {
+                value = 0;
+            }
+            this.valueElement.style.width = '100%';
+            this.valueElement.style.position = 'absolute';
+            this.valueElement.style.bottom = '0';
+            this.valueElement.style.height = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+        }
+    };
 
 function ProgressBar(removeDefaultStyle, element) {
     this._render(element);
@@ -45,6 +67,7 @@ ProgressBar.prototype._render = function(valueElement) {
         this.valueElement = crel('div')
     );
     this.element._progressBar = this;
+    this.updateFunctions = updateFunctions;
 };
 
 ProgressBar.prototype._value = 0;
@@ -77,12 +100,20 @@ ProgressBar.prototype.max = function(max) {
     this._update();
 };
 
-ProgressBar.prototype._update = function() {
-    var value = this._value;
-    if (value == null) {
-        value = 0;
+ProgressBar.prototype._style = 'vertical';
+ProgressBar.prototype.style = function(value){
+    if(!arguments.length){
+        return this._style;
     }
-    this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+
+    this._style = value;
+    this._update();
+};
+
+ProgressBar.prototype._update = function(){
+    var bar = this;
+    var style = bar._style in updateFunctions ? bar._style : 'horizontal';
+    bar.updateFunctions[style].call(bar);
 };
 
 module.exports = ProgressBar;
