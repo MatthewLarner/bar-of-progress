@@ -1,21 +1,46 @@
-.progress-bar {
-    position: relative;
-    display: inline-block;
+* {
+    box-sizing: border-box;
+}
 
-    width: 75%;
-    height: 15px;
+body {
+    text-align: center;
+    font-family: sans-serif;
+    padding: 8px;
+}
+.progress-bar {
+    width: 350px;
+    height: 25px;
 
     background-color: lightGray;
     border-radius: 2px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25) inset;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.25) inset;
+    transition: all 0.4s;
+    margin: 0 auto;
 }
 
-.progress-bar > div {
-  height:100%;
-  display: block;
+.progress-bar .value {
+    background-color: teal;
+    border-radius: 2px;
+}
 
-  background-color: gray;
-  border-radius: 2px;
+.progress-bar.vertical {
+    width: 25px;
+    height: 262px;
+}
 
-  text-indent: -9999px;
+h1 {
+    margin: 48px 0 8px 0;
+}
+
+a {
+    display: block;
+    color: #cb3837;
+    text-decoration: none;
+    word-wrap: break-word;
+}
+
+button {
+    margin: 48px auto;
+    padding: 8px;
+    font-size: 14px;
 }

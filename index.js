@@ -1,6 +1,6 @@
 var crel = require('crel'),
     DefaultStyle = require('default-style'),
-    style = new DefaultStyle('.progress-bar { position: relative; display: inline-block; background: darkGray; width:100%; height: 20px; } .progress-bar > div { height: 100%; display: block; text-indent: -9999px; }'),
+    style = new DefaultStyle('.progress-bar { position: relative; background: darkGray; width:100%; height: 20px; } .progress-bar .value { height: 100%; display: block; text-indent: -9999px; background-color: gray}'),
     updateFunctions = {
         horizontal: function horizontal() {
             var value = this._value;
@@ -13,7 +13,7 @@ var crel = require('crel'),
             this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
 
             var classesToRemove = Object.keys(this.updateFunctions);
-            classesToRemove.splice(classesToRemove.indexOf('horizontal', 1));
+            classesToRemove.splice(classesToRemove.indexOf('horizontal'), 1);
             this.element.classList.remove.apply(this.element.classList, classesToRemove);
 
             this.element.classList.add('horizontal');
@@ -30,7 +30,7 @@ var crel = require('crel'),
             this.valueElement.style.height = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
 
             var classesToRemove = Object.keys(this.updateFunctions);
-            classesToRemove.splice(classesToRemove.indexOf('vertical', 1));
+            classesToRemove.splice(classesToRemove.indexOf('vertical'), 1);
             this.element.classList.remove.apply(this.element.classList, classesToRemove);
 
             this.element.classList.add('vertical');
@@ -54,7 +54,7 @@ ProgressBar.prototype._render = function(valueElement) {
         return;
     }
     this.element = crel('div',
-        this.valueElement = crel('div')
+        this.valueElement = crel('div', {'class': 'value'})
     );
     this.element._progressBar = this;
     this.updateFunctions = updateFunctions;

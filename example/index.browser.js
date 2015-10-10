@@ -1,29 +1,64 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var bar = require('../'),
     brogress = new bar(),
-    doc = require('doc-js');
+    crel = require('crel'),
+    doc = require('doc-js'),
+    animationTime = 2500,
+    progressComplete,
+    startTime,
+    endTime;
 
-/**
-*   Defaults:
-*   min 0
-*   max 1
-*   value 0
-*   css class 'progress-bar' override by passing in a class name as the first parameter
-**/
+function switchStyles(){
+    var currentStyle = brogress.style(),
+        nextStyle = currentStyle === 'horizontal' ? 'vertical': 'horizontal';
 
-brogress.value(0.5); // Set value to 50% and updates display
-brogress.value(); // Gets current value: 0.5
+    brogress.style(nextStyle);
+}
 
+function animateProgress(){
+    var now = Date.now();
+
+    if(!progressComplete){
+        endTime = now + animationTime;
+        progressComplete = true;
+    }
+
+    var progress = 1 - ((endTime - now) / animationTime);
+
+    brogress.value(progress);
+
+    if(now > endTime) {
+        progressComplete = false;
+    }
+
+    requestAnimationFrame(animateProgress);
+}
+
+var heading = crel('h1', 'Bar of Progress'),
+    link = crel('a',
+        {
+            href:'https://www.npmjs.com/package/bar-of-progress',
+            target: '_blank'
+        },
+        'https://www.npmjs.com/package/bar-of-progress'
+    ),
+    toggleButton = crel('button', 'Switch Style');
+
+doc(toggleButton).on('click', switchStyles);
 doc.ready(function() {
-    window.brogress = brogress;
-
-    document.body.appendChild(brogress.element);
+    crel(document.body,
+        heading,
+        link,
+        toggleButton,
+        brogress.element
+    );
+    animateProgress();
 });
 
-},{"../":2,"doc-js":6}],2:[function(require,module,exports){
+},{"../":2,"crel":3,"doc-js":6}],2:[function(require,module,exports){
 var crel = require('crel'),
     DefaultStyle = require('default-style'),
-    style = new DefaultStyle('.progress-bar { position: relative; display: inline-block; background: darkGray; width:100%; height: 20px; } .progress-bar > div { height: 100%; display: block; text-indent: -9999px; }'),
+    style = new DefaultStyle('.progress-bar { position: relative; background: darkGray; width:100%; height: 20px; } .progress-bar .value { height: 100%; display: block; text-indent: -9999px; background-color: gray}'),
     updateFunctions = {
         horizontal: function horizontal() {
             var value = this._value;
@@ -36,7 +71,7 @@ var crel = require('crel'),
             this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
 
             var classesToRemove = Object.keys(this.updateFunctions);
-            classesToRemove.splice(classesToRemove.indexOf('horizontal', 1));
+            classesToRemove.splice(classesToRemove.indexOf('horizontal'), 1);
             this.element.classList.remove.apply(this.element.classList, classesToRemove);
 
             this.element.classList.add('horizontal');
@@ -53,7 +88,7 @@ var crel = require('crel'),
             this.valueElement.style.height = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
 
             var classesToRemove = Object.keys(this.updateFunctions);
-            classesToRemove.splice(classesToRemove.indexOf('vertical', 1));
+            classesToRemove.splice(classesToRemove.indexOf('vertical'), 1);
             this.element.classList.remove.apply(this.element.classList, classesToRemove);
 
             this.element.classList.add('vertical');
@@ -77,7 +112,7 @@ ProgressBar.prototype._render = function(valueElement) {
         return;
     }
     this.element = crel('div',
-        this.valueElement = crel('div')
+        this.valueElement = crel('div', {'class': 'value'})
     );
     this.element._progressBar = this;
     this.updateFunctions = updateFunctions;
