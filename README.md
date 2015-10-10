@@ -89,9 +89,9 @@ bar.updateFunctions['segmented'] = function(){
 bar.style('segmented');
 ```
 
-**Run the tests**
+### Run the tests
 npm test
 
-**Run the example**
-npm example
+### Run the example
+npm run example
 
