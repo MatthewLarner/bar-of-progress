@@ -1,6 +1,41 @@
 var crel = require('crel'),
     DefaultStyle = require('default-style'),
-    style = new DefaultStyle('.progress-bar { position: relative; display: inline-block; background: darkGray; width:100%; height: 20px; } .progress-bar > div { height: 100%; display: block; text-indent: -9999px; }');
+    style = new DefaultStyle('.progress-bar { position: relative; background: darkGray; width:100%; height: 20px; } .progress-bar .value { height: 100%; display: block; text-indent: -9999px; background-color: gray}'),
+    updateFunctions = {
+        horizontal: function horizontal() {
+            var value = this._value;
+            if (value == null) {
+                value = 0;
+            }
+            this.valueElement.style.position = 'initial';
+            this.valueElement.style.bottom = 'initial';
+            this.valueElement.style.height = '100%';
+            this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+
+            var classesToRemove = Object.keys(this.updateFunctions);
+            classesToRemove.splice(classesToRemove.indexOf('horizontal'), 1);
+            this.element.classList.remove.apply(this.element.classList, classesToRemove);
+
+            this.element.classList.add('horizontal');
+
+        },
+        vertical: function vertical() {
+            var value = this._value;
+            if (value == null) {
+                value = 0;
+            }
+            this.valueElement.style.width = '100%';
+            this.valueElement.style.position = 'absolute';
+            this.valueElement.style.bottom = '0';
+            this.valueElement.style.height = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+
+            var classesToRemove = Object.keys(this.updateFunctions);
+            classesToRemove.splice(classesToRemove.indexOf('vertical'), 1);
+            this.element.classList.remove.apply(this.element.classList, classesToRemove);
+
+            this.element.classList.add('vertical');
+        }
+    };
 
 function ProgressBar(removeDefaultStyle, element) {
     this._render(element);
@@ -19,9 +54,11 @@ ProgressBar.prototype._render = function(valueElement) {
         return;
     }
     this.element = crel('div',
-        this.valueElement = crel('div')
+        this.valueElement = crel('div', {'class': 'value'})
     );
     this.element._progressBar = this;
+    this.updateFunctions = updateFunctions;
+    this._update();
 };
 
 ProgressBar.prototype._value = 0;
@@ -54,12 +91,20 @@ ProgressBar.prototype.max = function(max) {
     this._update();
 };
 
-ProgressBar.prototype._update = function() {
-    var value = this._value;
-    if (value == null) {
-        value = 0;
+ProgressBar.prototype._style = 'vertical';
+ProgressBar.prototype.style = function(value){
+    if(!arguments.length){
+        return this._style;
     }
-    this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
+
+    this._style = value;
+    this._update();
+};
+
+ProgressBar.prototype._update = function(){
+    var bar = this;
+    var style = bar._style in updateFunctions ? bar._style : 'horizontal';
+    bar.updateFunctions[style].call(bar);
 };
 
 module.exports = ProgressBar;
