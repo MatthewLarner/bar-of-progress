@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var bar = require('../'),
-    brogress = new bar(),
+var Brogress = require('../'),
+    brogress = new Brogress(),
     crel = require('crel'),
     doc = require('doc-js'),
     animationTime = 2500,
@@ -58,40 +58,45 @@ doc.ready(function() {
 },{"../":2,"crel":3,"doc-js":6}],2:[function(require,module,exports){
 var crel = require('crel'),
     DefaultStyle = require('default-style'),
-    style = new DefaultStyle('.progress-bar { position: relative; background: darkGray; width:100%; height: 20px; } .progress-bar .value { height: 100%; display: block; text-indent: -9999px; background-color: gray}'),
-    updateFunctions = {
+    style = new DefaultStyle('.progress-bar { position: relative; background: darkGray; width:100%; height: 20px; } .progress-bar .value { height: 100%; display: block; text-indent: -9999px; background-color: gray}');
+
+function getValue(){
+    var value = this._value;
+
+    if (value == null) {
+        value = 0;
+    }
+
+    return value;
+}
+
+function setClass(className){
+    var classesToRemove = Object.keys(this.updateFunctions);
+    classesToRemove.splice(classesToRemove.indexOf(className), 1);
+    this.element.classList.remove.apply(this.element.classList, classesToRemove);
+    this.element.classList.add(className);
+}
+
+var updateFunctions = {
         horizontal: function horizontal() {
-            var value = this._value;
-            if (value == null) {
-                value = 0;
-            }
+            var value = getValue.call(this);
+
             this.valueElement.style.position = 'initial';
             this.valueElement.style.bottom = 'initial';
             this.valueElement.style.height = '100%';
             this.valueElement.style.width = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
 
-            var classesToRemove = Object.keys(this.updateFunctions);
-            classesToRemove.splice(classesToRemove.indexOf('horizontal'), 1);
-            this.element.classList.remove.apply(this.element.classList, classesToRemove);
-
-            this.element.classList.add('horizontal');
-
+            setClass.call(this, 'horizontal');
         },
         vertical: function vertical() {
-            var value = this._value;
-            if (value == null) {
-                value = 0;
-            }
+            var value = getValue.call(this);
+
             this.valueElement.style.width = '100%';
             this.valueElement.style.position = 'absolute';
             this.valueElement.style.bottom = '0';
             this.valueElement.style.height = Math.max(0, Math.min(100, 100 / (this.max() - this.min()) * value)) + '%';
 
-            var classesToRemove = Object.keys(this.updateFunctions);
-            classesToRemove.splice(classesToRemove.indexOf('vertical'), 1);
-            this.element.classList.remove.apply(this.element.classList, classesToRemove);
-
-            this.element.classList.add('vertical');
+            setClass.call(this, 'vertical');
         }
     };
 
@@ -149,7 +154,7 @@ ProgressBar.prototype.max = function(max) {
     this._update();
 };
 
-ProgressBar.prototype._style = 'vertical';
+ProgressBar.prototype._style = 'horizontal';
 ProgressBar.prototype.style = function(value){
     if(!arguments.length){
         return this._style;
@@ -161,7 +166,7 @@ ProgressBar.prototype.style = function(value){
 
 ProgressBar.prototype._update = function(){
     var bar = this;
-    var style = bar._style in updateFunctions ? bar._style : 'horizontal';
+    var style = bar._style in bar.updateFunctions ? bar._style : 'horizontal';
     bar.updateFunctions[style].call(bar);
 };
 

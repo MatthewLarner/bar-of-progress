@@ -1,5 +1,5 @@
-var bar = require('../'),
-    brogress = new bar(),
+var Brogress = require('../'),
+    brogress = new Brogress(),
     crel = require('crel'),
     doc = require('doc-js'),
     animationTime = 2500,
