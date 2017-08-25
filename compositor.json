@@ -1,0 +1,97 @@
+{
+  "name": "MatthewLarner/bar-of-progress",
+  "version": "0.1.4",
+  "libraries": {
+    "xv": "^1.1.25"
+  },
+  "title": "",
+  "branch": "",
+  "style": {
+    "name": "Future",
+    "componentSet": {
+      "nav": "nav/BasicNav",
+      "header": "header/BannerHeader",
+      "article": "article/BasicArticle",
+      "footer": "footer/BasicFooter"
+    },
+    "fontFamily": "\"Avenir Next\", Helvetica, sans-serif",
+    "heading": {
+      "fontWeight": 500,
+      "textTransform": "uppercase",
+      "letterSpacing": "0.2em"
+    },
+    "alternativeText": {
+      "textTransform": "uppercase",
+      "fontWeight": 400,
+      "letterSpacing": "0.2em",
+      "opacity": 0.75
+    },
+    "colors": {
+      "text": "#333",
+      "background": "#fff",
+      "primary": "#666",
+      "secondary": "#888",
+      "highlight": "#1f80ff",
+      "muted": "#f6f6f6",
+      "border": "#eee"
+    },
+    "layout": {
+      "centered": true,
+      "maxWidth": 1024,
+      "bannerHeight": "80vh"
+    }
+  },
+  "content": [
+    {
+      "component": "nav",
+      "links": [
+        {
+          "href": "https://github.com/MatthewLarner/bar-of-progress",
+          "text": "GitHub"
+        },
+        {
+          "href": "https://npmjs.com/package/bar-of-progress",
+          "text": "npm"
+        }
+      ]
+    },
+    {
+      "component": "header",
+      "heading": "bar-of-progress",
+      "subhead": "An easily overrideable progress bar",
+      "children": [
+        {
+          "component": "ui/TweetButton",
+          "text": "bar-of-progress: An easily overrideable progress bar",
+          "url": null
+        },
+        {
+          "component": "ui/GithubButton",
+          "user": "MatthewLarner",
+          "repo": "bar-of-progress"
+        }
+      ],
+      "text": "v1.1.0"
+    },
+    {
+      "component": "article",
+      "metadata": {
+        "source": "github.readme"
+      },
+      "html": "\n<p>An easily overridable progress bar.\nSwitch between horizontal and vertical styles out of the box.</p>\n<p><a href=\"https://cdn.rawgit.com/MatthewLarner/bar-of-progress/master/example/index.html\">Click here to view an example</a></p>\n<h2>Usage</h2>\n<pre><span class=\"hljs-keyword\">var</span> Brogress = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">&apos;bar-of-progress&apos;</span>),\n    bar = <span class=\"hljs-keyword\">new</span> Brogress();\n\n<span class=\"hljs-built_in\">document</span>.body.appendChild(bar.element);\n\nbar.value(<span class=\"hljs-number\">0.5</span>); <span class=\"hljs-comment\">//sets the value to 0.5</span>\nbar.value(); <span class=\"hljs-comment\">// returns current value 0.5</span></pre><h2>Styling</h2>\n<p>Some minimal styling is added out of the box but is easily overridden.</p>\n<p><strong>bar-of-progress</strong> is implemented with two divs, a parent and a container.\n <em>.progress-bar</em>  is the parent element.\n <em>.value</em> is the child element.</p>\n<p>Some example styling:</p>\n<pre><span class=\"hljs-selector-class\">.progress-bar</span> {\n    <span class=\"hljs-attribute\">width</span>: <span class=\"hljs-number\">350px</span>;\n    <span class=\"hljs-attribute\">height</span>: <span class=\"hljs-number\">25px</span>;\n    <span class=\"hljs-attribute\">box-shadow</span>: <span class=\"hljs-number\">0</span> <span class=\"hljs-number\">2px</span> <span class=\"hljs-number\">25px</span> <span class=\"hljs-built_in\">rgba</span>(0, 0, 0, 0.25) inset;\n}\n\n<span class=\"hljs-selector-class\">.progress-bar</span> <span class=\"hljs-selector-class\">.value</span> {\n    <span class=\"hljs-attribute\">background-color</span>: teal;\n}</pre><p>The parent element has an additional class to match it&apos;s current style.\n<em>.horizontal</em> or <em>.vertical</em></p>\n<p>For example:</p>\n<pre><span class=\"hljs-selector-class\">.progress-bar</span><span class=\"hljs-selector-class\">.vertical</span> {\n    <span class=\"hljs-attribute\">width</span>: <span class=\"hljs-number\">25px</span>;\n    <span class=\"hljs-attribute\">height</span>: <span class=\"hljs-number\">260px</span>;\n}</pre><h2>Api</h2>\n<p>Properties are implemented as getter setter functions.\nCall with no parameters to get the current value or call with with a value to set.</p>\n<p>properties:</p>\n<h3>.min()</h3>\n<p>gets the current progress min\ndefaults to <code>0</code></p>\n<h3>.min(value)</h3>\n<p>sets the progress min</p>\n<h3>.max()</h3>\n<p>gets the current progress max.\ndefaults to <code>1</code></p>\n<h3>.max(value)</h3>\n<p>sets the progress max</p>\n<h3>.value()</h3>\n<p>gets the current progress value</p>\n<h3>.value(value)</h3>\n<p>sets the progress value</p>\n<h3>.style()</h3>\n<p>gets the current style\ndefaults to <code>&apos;horizontal&apos;</code></p>\n<h3>.style(style)</h3>\n<p>sets the style\nvalid values are <code>&apos;horizontal&apos;</code> or <code>&apos;vertical&apos;</code></p>\n<h2>Update functions</h2>\n<p>more styles can be added by adding a property with an update function to\n<code>.updateFunctions</code></p>\n<pre>bar.updateFunctions[<span class=\"hljs-string\">&apos;segmented&apos;</span>] = <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span>(<span class=\"hljs-params\"></span>)</span>{\n    <span class=\"hljs-comment\">//implement your segmented update function here</span>\n}\n\n<span class=\"hljs-comment\">//style can then be set as normal</span>\nbar.style(<span class=\"hljs-string\">&apos;segmented&apos;</span>);</pre><h3>Run the tests</h3>\n<p>npm test</p>\n<h3>Run the example</h3>\n<p>npm run example</p>\n"
+    },
+    {
+      "component": "footer",
+      "links": [
+        {
+          "href": "https://github.com/MatthewLarner/bar-of-progress",
+          "text": "GitHub"
+        },
+        {
+          "href": "https://github.com/MatthewLarner",
+          "text": "MatthewLarner"
+        }
+      ]
+    }
+  ]
+}
